@@ -7,6 +7,7 @@
 
 #define HEIGHT 800
 #define WIDTH 800
+#define sqrt3 ((float) sqrt(3))
 
 // Vertex Shader source code
 const char *vertexShaderSource = "#version 330 core\n"
@@ -26,6 +27,8 @@ const char *fragmentShaderSource = "#version 330 core\n"
 
 GLFWwindow *setup();
 
+GLuint genShaderProgram();
+
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
 
 }
@@ -40,11 +43,73 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     GLfloat vertices[] = {
-            -0.5f, -0.5f * ((float) sqrt(3)) / 3, .0f,
-            0.5f, -0.5f * ((float) sqrt(3)) / 3, 0.0f,
-            0.0f, 0.5f * ((float) sqrt(3)) * 2 / 3, 0.0f
+            -0.5f, -0.5f * sqrt3 / 3, .0f,
+            0.5f, -0.5f * sqrt3 / 3, 0.0f,
+            0.0f, 0.5f * sqrt3 * 2 / 3, 0.0f,
+            -0.5f / 2, 0.5f * sqrt3 / 6, 0.0f, // Inner left
+            0.5f / 2, 0.5f * sqrt3 / 6, 0.0f, // Inner right
+            0.0f, -0.5f * sqrt3 / 3, 0.0f // Inner down
     };
 
+    GLuint indices[] = {
+            0, 3, 5, // Lower left triangle
+            3, 2, 4,
+            5, 4, 1
+    };
+
+    // Reference containers for the Vertex Array and the Vertex Buffer
+    // VAO = Vertex Array Object
+    // VBO = Vertex Buffer Object
+    // EBO = Element Buffer Object
+    GLuint VAO, VBO, EBO;
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    GLuint shaderProgram = genShaderProgram();
+    while (!glfwWindowShouldClose(window)) {
+        glClearColor(0.07f, 0.13f, 0.17f, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+
+        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+
+    glDeleteVertexArrays(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteVertexArrays(1, &EBO);
+    glDeleteProgram(shaderProgram);
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+
+    return 0;
+}
+
+GLuint genShaderProgram() {
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
@@ -60,55 +125,15 @@ int main() {
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-
-
-    GLuint VAO, VBO;
-
-    glGenVertexArrays(1, &VAO);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    glBindVertexArray(VAO);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.07f, 0.13f, 0.17f, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-
-    glDeleteVertexArrays(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteProgram(shaderProgram);
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-
-    return 0;
+    return shaderProgram;
 }
 
 GLFWwindow *setup() {
     glfwInit();
 
-    // Why doesn't work?
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-//    glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
 
     GLFWwindow *window = glfwCreateWindow(HEIGHT, WIDTH, "OpenGL", NULL, NULL);
     if (window == NULL) {

@@ -7,7 +7,7 @@ add_executable(opengl_c main.c src/test/test.c)
 
 target_include_directories(opengl_c PRIVATE src/)
 
-add_library(src_lib STATIC src/test/test.c)
+add_library(src_lib STATIC src/test/test.c src/utils/vector.c)
 target_include_directories(src_lib PUBLIC src/)
 target_link_libraries(opengl_c PRIVATE src_lib)
 

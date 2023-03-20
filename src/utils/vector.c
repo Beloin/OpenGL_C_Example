@@ -19,7 +19,10 @@ TriangleVector2 CreateTriangle(Vector2 *point, int height, int width) {
     //  Test with R = 50
     //  Height = 75
     //  Central Point = (400, 400)
-    //
+    //  Upper Point =  (400, 450)
+    //  Left Point =  (356.7, 375)
+    //  Right Point =  (443.3, 375)
+
 
 
     // Normalize between -1 and 1:

@@ -71,7 +71,7 @@ void GenerateFloatArray(TriangleVector2 *triangle, float output[9]) {
     output[1] = triangle->left.y;
     output[2] = 0;
 
-    output[3] = triangle->left.x;
+    output[3] = triangle->right.x;
     output[4] = triangle->right.y;
     output[5] = 0;
 

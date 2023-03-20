@@ -60,7 +60,7 @@ int main() {
     glGenBuffers(1, &VBO);
 
     float vectorVertex[9];
-    Vector2 p1 = CreateVector(400, 400);
+    Vector2 p1 = CreateVector(50, 400);
     TriangleVector2 tv2 = CreateTriangle(&p1, HEIGHT, WIDTH);
     GenerateFloatArray(&tv2, vectorVertex);
 

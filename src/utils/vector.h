@@ -14,7 +14,7 @@ typedef struct {
 
 // For now everyone will be a equilateral triangle.
 typedef struct {
-    Vector2 center;
+    Vector2 *center;
 
     float centerDistance; // if: r = 2/3 * h. So h = 3/2*r
 

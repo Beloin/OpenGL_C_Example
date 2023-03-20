@@ -50,7 +50,7 @@ TriangleVector2 CreateTriangle(Vector2 *point, int height, int width) {
     float normalizedRightX = normalize(rightX, 0, width);
     Vector2 normalizedRightVector = {normalizedRightX, normalizedLeftY};
 
-    TriangleVector2 norm = (TriangleVector2) {*point, DEFAULT_CENTER_DIST,
+    TriangleVector2 norm = (TriangleVector2) {point, DEFAULT_CENTER_DIST,
                                               normalizedUpperVector, normalizedLeftVector,
                                               normalizedRightVector};
 

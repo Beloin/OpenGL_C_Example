@@ -61,19 +61,10 @@ int main() {
 
     float vectorVertex[9];
     Vector2 p1 = CreateVector(50, 400);
-    TriangleVector2 tv2 = CreateTriangle(&p1, HEIGHT, WIDTH);
-    GenerateFloatArray(&tv2, vectorVertex);
 
     time_t t1, t0;
     time(&t0);
     t1 = t0;
-
-    GLfloat vertices45[] =
-            {
-                    -0.5f, -0.5f * sqrt3 / 3, 0.0f, // Lower left corner
-                    0.5f, -0.5f * sqrt3 / 3, 0.0f, // Lower right corner
-                    0.0f, 0.5f * sqrt3 * 2 / 3, 0.0f // Upper corner
-            };
 
     GLuint shaderProgram01 = genShaderProgram01();
     GLuint shaderProgram02 = genShaderProgram02();
@@ -90,6 +81,10 @@ int main() {
         glEnableVertexAttribArray(0);
 
         glUseProgram(shaderProgram01);
+
+        TriangleVector2 tv2 = CreateTriangle(&p1, HEIGHT, WIDTH);
+        GenerateFloatArray(&tv2, vectorVertex);
+        p1.x = p1.x * 1.01f;
 
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);

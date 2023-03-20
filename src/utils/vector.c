@@ -5,17 +5,25 @@
 #include "vector.h"
 #include <math.h>
 
+const float h = ((float) 3 / 2) * DEFAULT_CENTER_DIST;
+
 float normalize(float value, int min, int max);
 
-Vector2 createVector(float x, float y) {
+Vector2 CreateVector(float x, float y) {
     return (Vector2) {x, y};
 }
 
-TriangleVector2 createTriangle(Vector2 *point, int height, int width) {
-    // Normalize between -1 and 1:
+TriangleVector2 CreateTriangle(Vector2 *point, int height, int width) {
+    // TODO: Problem while normalizing:
+    //  To solve it: Create a simple example and calculate it manually.
+    //  Test with R = 50
+    //  Height = 75
+    //  Central Point = (400, 400)
+    //
 
+
+    // Normalize between -1 and 1:
     // Working with the triangle height
-    const float h = ((float) 3 / 2) * DEFAULT_CENTER_DIST;
 
     float upperX = point->x;
     float upperY = point->y + ((float) 2 / 3) * h;
@@ -50,4 +58,18 @@ float normalize(float value, int min, int max) {
 
     float zi = (2 * (p1 / p2)) - 1;
     return zi;
+}
+
+void GenerateFloatArray(TriangleVector2 *triangle, float output[9]) {
+    output[0] = triangle->left.x;
+    output[1] = triangle->left.y;
+    output[2] = 0;
+
+    output[3] = triangle->left.x;
+    output[4] = triangle->right.y;
+    output[5] = 0;
+
+    output[6] = triangle->upper.x;
+    output[7] = triangle->upper.y;
+    output[8] = 0;
 }

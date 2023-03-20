@@ -23,10 +23,9 @@ TriangleVector2 CreateTriangle(Vector2 *point, int height, int width) {
     //  Left Point =  (356.7, 375)
     //  Right Point =  (443.3, 375)
     //  Normalized:
-    //  Upper Point =  (400, 450)
-    //  Left Point =  (356.7, 375)
-    //  Right Point =  (443.3, 375)
-
+    //  Upper Point =  (0, 0.125)
+    //  Left Point =  (-0.108, -0.0625)
+    //  Right Point =  (0.108, -0.0625)
 
 
     // Normalize between -1 and 1:

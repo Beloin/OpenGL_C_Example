@@ -17,3 +17,7 @@ In this repository, there's a simple OpenGL usage with one `Vertex Buffer Object
 - And a simple animation example changing the lower left triangle vertex normalized position
 
 <img src="/resources/openggif.gif" alt="Showcase of a simple triangle"/>
+
+## Vector Implementation
+
+- To see Vector 2D Usages, move to branch: `feature/vectors`.

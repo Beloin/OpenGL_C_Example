@@ -51,6 +51,9 @@ int main() {
     glClearColor(0.07f, 0.13f, 0.17f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    float vectorVertex[9];
+    Vector2 p1 = CreateVector(50, 400);
+
     // Reference containers for the Vertex Array and the Vertex Buffer
     // VAO = Vertex Array Object
     // VBO = Vertex Buffer Object
@@ -59,16 +62,19 @@ int main() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
-    float vectorVertex[9];
-    Vector2 p1 = CreateVector(50, 400);
+    // Bind and configure buffers
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vectorVertex), vectorVertex, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
 
-    time_t t1, t0;
-    time(&t0);
-    t1 = t0;
 
     GLuint shaderProgram01 = genShaderProgram01();
     GLuint shaderProgram02 = genShaderProgram02();
     int fps = 0;
+    time_t t1, t0;
+    time(&t0);
+    t1 = t0;
     while (!glfwWindowShouldClose(window)) {
         fps++;
         if (t1 - t0 > 0) {
@@ -86,11 +92,9 @@ int main() {
         GenerateFloatArray(&tv2, vectorVertex);
         p1.x = p1.x * 1.01f;
 
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vectorVertex), vectorVertex, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
         glDrawArrays(GL_TRIANGLES, 0, 3);
+        // Update buffer data.
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vectorVertex), vectorVertex);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

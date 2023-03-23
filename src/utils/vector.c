@@ -14,8 +14,7 @@ Vector2 CreateVector(float x, float y) {
 }
 
 TriangleVector2 CreateTriangle(Vector2 *point, int height, int width) {
-    // TODO: Problem while normalizing:
-    //  To solve it: Create a simple example and calculate it manually.
+    //  Manual Example:
     //  Test with R = 50
     //  Height = 75
     //  Central Point = (400, 400)

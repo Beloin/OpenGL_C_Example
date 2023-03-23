@@ -31,7 +31,7 @@ In this repository, there's a simple OpenGL usage with one `Vertex Buffer Object
     2. Create the Triangle Placeholder for it: `TriangleVector2 tv2 = CreateTriangle(&p1, HEIGHT, WIDTH);`
     3. Create now the `float` array that contains the vertices of the
        triangle: `GenerateFloatArray(&tv2, vectorVertex);`
-    4. Now show the vertices using your  
+    4. Now show the vertices using your Buffer Object.
 - This will be used as a base PoC to the <a href="https://github.com/Beloin/SwarmEngine">Swarm Engine</a>.
 
 <img src="/resources/vector.gif" alt="Showcase of a moving Vector2D"/>
